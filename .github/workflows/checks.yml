@@ -1,0 +1,24 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Pipeline, limits, sources and the approval gate
+        run: node eval/run_eval.js
+      - name: Headless run of the demo client, approving
+        run: node mcp/client-demo.js --approve
+        env:
+          SOAPBOX_DOC: /tmp/soapbox-ci/product-pulse-log.md
+          SOAPBOX_OUT: /tmp/soapbox-ci

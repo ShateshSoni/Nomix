@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline — a twelve-week readout of store feedback</title>
+<meta name="description" content="Northline clusters public store comments, surfaces the deduction people keep misreading, drafts a Monday briefing and a support snippet, and writes either of them only after you sign off.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23081a1c'/%3E%3Cpath d='M6 22h20M8 18l8-10 8 10' fill='none' stroke='%232dd4bf' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-tags" viewBox="0 0 24 24"><path d="M4 5h7l9 9-7 7-9-9z"/><circle cx="8" cy="9" r="1.4"/></symbol>
+  <symbol id="i-rupee" viewBox="0 0 24 24"><path d="M7 5h10M7 9h10M7 5c6 0 7 2 7 4s-1 4-7 4l7 6"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z M14 3v5h5 M9.5 12h7M9.5 16h7"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4z M20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6z M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5M5 19h14"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="#overview" aria-label="Northline, dashboard">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#081a1c"/><path d="M6 22h20M8 18l8-10 8 10" fill="none" stroke="#2dd4bf" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="brand-name">Northline</span>
+      </a>
+      <button class="icon-btn side-close" id="side-close" type="button" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="ws">
+      <span class="ws-mark" aria-hidden="true">G</span>
+      <div class="ws-copy">
+        <span class="ws-k">Live listing</span>
+        <strong id="ws-name">Groww · Play Store</strong>
+        <span class="ws-sub" id="ws-window">12 weeks</span>
+      </div>
+    </div>
+
+    <label class="cmd" for="cmd">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="cmd" type="search" placeholder="Find a phrase" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+
+    <nav class="nav" aria-label="Sections">
+      <a href="#overview" data-view="overview"><svg class="ic"><use href="#i-home"/></svg>Dashboard</a>
+      <a href="#reviews" data-view="reviews"><svg class="ic"><use href="#i-chat"/></svg>Feedback<span class="count" id="n-reviews"></span></a>
+      <a href="#themes" data-view="themes"><svg class="ic"><use href="#i-tags"/></svg>Clusters<span class="count" id="n-themes"></span></a>
+      <a href="#fee" data-view="fee"><svg class="ic"><use href="#i-rupee"/></svg>Charge mix</a>
+      <span class="nav-k">Writes</span>
+      <a href="#ai" data-view="ai"><svg class="ic"><use href="#i-spark"/></svg>Model drafts<span class="count" id="n-ai"></span></a>
+      <a href="#pulse" data-view="pulse"><svg class="ic"><use href="#i-doc"/></svg>Week brief</a>
+    </nav>
+
+    <div class="runtime-hooks" aria-hidden="true">
+      <span class="count" id="n-pending"></span>
+      <span id="run-status">Reading reviews…</span>
+      <span class="dot" id="run-dot"></span>
+      <button id="run" type="button">Run again</button>
+      <input id="csv" type="file" accept=".csv,text/csv">
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="frame">
+    <header class="mobile-bar">
+      <button class="icon-btn" id="side-open" type="button" aria-label="Open menu"><svg class="ic"><use href="#i-menu"/></svg></button>
+      <a class="brand" href="#overview"><svg class="brand-mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#081a1c"/><path d="M6 22h20M8 18l8-10 8 10" fill="none" stroke="#2dd4bf" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-name">Northline</span></a>
+      <span class="mobile-view" id="mobile-view">Dashboard</span>
+    </header>
+
+    <main id="main">
+
+      <section class="view" id="view-overview">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Window closing <span id="hero-date">…</span></p>
+            <h1>Twelve weeks of store comments.<br>One Monday packet.</h1>
+            <p class="lede">Northline reads the public listing comments in this window, groups them into five clusters, and isolates the deduction people keep saying they never saw coming. You get a short note for product and a paste-ready reply for support. Both stay in this page until you release them.</p>
+            <div class="hero-cta">
+              <a class="btn primary lg" href="#pulse">Open this week’s brief</a>
+              <a class="btn lg" href="#reviews">Scan the comments</a>
+            </div>
+            <p class="hero-hint" id="hero-hint">Analysing…</p>
+          </div>
+          <figure class="ledger" aria-label="Sample contract note for a small delivery sell">
+            <figcaption>Sample ledger for a ₹1,842 delivery sell</figcaption>
+            <table>
+              <tbody>
+                <tr><th scope="row">Sale value, 3 shares</th><td class="cr">1,842.00</td><td class="tag">credit</td></tr>
+                <tr><th scope="row">Brokerage, 0.1% capped at ₹20</th><td class="dr">1.84</td><td class="tag">debit</td></tr>
+                <tr class="flag"><th scope="row">DP line, broker</th><td class="dr">16.50</td><td class="tag">debit</td></tr>
+                <tr class="flag"><th scope="row">DP line, depository</th><td class="dr">3.50</td><td class="tag">debit</td></tr>
+                <tr><th scope="row">GST at 18%</th><td class="dr">3.93</td><td class="tag">debit</td></tr>
+                <tr><th scope="row">Statutory levies</th><td class="dr">2.31</td><td class="tag">debit</td></tr>
+                <tr class="total"><th scope="row">Credited</th><td class="cr">1,813.92</td><td class="tag"></td></tr>
+              </tbody>
+            </table>
+            <p class="ledger-note">The flagged rows are flat fees. They look the same on a ₹500 sell, which is why comments call them hidden.</p>
+          </figure>
+        </div>
+
+        <div class="kpis" id="kpis" aria-live="polite"></div>
+
+        <div class="grid g-3">
+          <section class="card">
+            <header class="card-h"><h2>Clusters by volume</h2><a class="card-link" href="#themes">Open all five</a></header>
+            <ol class="theme-list" id="theme-list"></ol>
+          </section>
+          <section class="card">
+            <header class="card-h"><h2>Star mix</h2><span class="card-sub">comments that include text</span></header>
+            <div class="bars" id="rating-mix"></div>
+          </section>
+          <section class="card">
+            <header class="card-h"><h2>Volume by week</h2><span class="card-sub">every posted comment</span></header>
+            <div class="cols" id="weekly-volume"></div>
+          </section>
+        </div>
+
+        <section class="card headline" id="headline-card">
+          <div class="headline-side">
+            <p class="eyebrow light">Deduction people keep misreading</p>
+            <h2 id="headline-title"></h2>
+            <div class="facts" id="headline-facts"></div>
+            <div class="row"><a class="btn primary" href="#explainer">Open the support copy</a><a class="btn ghost-light" href="#fee" id="headline-more">Inspect the evidence</a></div>
+          </div>
+          <div class="headline-quote" id="headline-quote"></div>
+        </section>
+
+        <section class="card">
+          <header class="card-h"><h2>How this run was built</h2><span class="card-sub">computed in this tab from <code>data/reviews.csv</code> by <code>src/engine.js</code>; no model in the default path</span></header>
+          <ol class="trace" id="trace"></ol>
+        </section>
+      </section>
+
+      <section class="view fb-view" id="view-reviews" hidden>
+        <header class="fb-head">
+          <div class="fb-head-copy">
+            <p class="eyebrow">Play comments</p>
+            <h1>Feedback</h1>
+            <p class="sub">Every comment in the window that still has text, exactly as posted. Display names were stripped at ingest; identifiers are hashed.</p>
+          </div>
+          <p class="result-count" id="review-count"></p>
+        </header>
+        <div class="fb-board">
+          <aside class="fb-rail">
+            <div class="toolbar fb-tools" role="search">
+              <p class="fb-rail-k">Narrow the stream</p>
+              <label class="field grow"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input type="search" id="q" placeholder="DP charge, withdraw, otp" aria-label="Search reviews"></label>
+              <label class="fb-lab" for="f-theme">Cluster</label>
+              <select id="f-theme" class="field" aria-label="Theme"><option value="">All clusters</option></select>
+              <p class="fb-lab">Stars</p>
+              <div class="chips" id="f-rating" role="group" aria-label="Rating">
+                <button type="button" data-r="" class="on">Any</button>
+                <button type="button" data-r="1">1</button>
+                <button type="button" data-r="2">2</button>
+                <button type="button" data-r="3">3</button>
+                <button type="button" data-r="4">4</button>
+                <button type="button" data-r="5">5</button>
+              </div>
+              <label class="toggle"><input type="checkbox" id="f-fee"> Names a charge</label>
+              <label class="fb-lab" for="f-sort">Order</label>
+              <select id="f-sort" class="field" aria-label="Sort"><option value="new">Newest first</option><option value="helpful">Most helpful</option><option value="low">Lowest rating</option><option value="long">Longest</option></select>
+            </div>
+          </aside>
+          <div class="fb-stream">
+            <div class="rv-stats" id="rv-stats"></div>
+            <div class="review-list" id="review-list"></div>
+            <div class="row center"><button class="btn" id="more" type="button" hidden>Show 40 more</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-themes" hidden>
+        <header class="page-h">
+          <div><h1>Clusters</h1><p class="sub">Each comment lands in its strongest cluster only, so nothing is counted twice. Comments that match none stay unassigned instead of being forced. Distinguishing words come from the corpus itself, ranked by log-odds against the rest.</p></div>
+        </header>
+        <div class="theme-cards" id="theme-cards"></div>
+        <section class="card">
+          <header class="card-h"><h2>Three lines that carry the window</h2><span class="card-sub">verbatim from the CSV · withdrawal, login OTP, and crashes — not the fee cluster</span></header>
+          <div class="quotes" id="quotes"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-fee" hidden>
+        <header class="page-h fee-page-h">
+          <div>
+            <p class="eyebrow">Deduction that wins the misread score</p>
+            <h1>Charge mix</h1>
+            <p class="sub">A comment counts as confused when it names a deduction <em>and</em> signals surprise: hidden, extra, undisclosed, <span lang="hi">bina bataye</span>, <span lang="hi">pata nahi</span>. Volume alone would crown the best-known fee, so the score multiplies how often a charge is named by how often it is misread.</p>
+          </div>
+          <a class="btn primary" href="#explainer">Open the support copy</a>
+        </header>
+
+        <section class="fee-spotlight" id="fee-spotlight" aria-live="polite">
+          <div class="fee-spotlight-main">
+            <p class="fee-spotlight-k">Leading deduction</p>
+            <h2 id="fee-spot-title">…</h2>
+            <p class="fee-spotlight-sum" id="fee-summary"></p>
+            <div class="fee-spot-facts" id="fee-spot-facts"></div>
+          </div>
+          <div class="fee-spotlight-side">
+            <header class="fee-side-h">
+              <h3>Confused mentions by week</h3>
+              <span id="fee-trend"></span>
+            </header>
+            <div class="fee-week-chart cols hot" id="fee-weekly"></div>
+          </div>
+        </section>
+
+        <section class="fee-rank">
+          <header class="fee-rank-h">
+            <h2>Score by deduction</h2>
+            <span>mentions × confusion rate</span>
+          </header>
+          <div class="table-wrap fee-table-wrap">
+            <table class="fees" id="fees">
+              <thead><tr><th>Charge</th><th class="num">Named in</th><th class="num">Confused</th><th class="num">Rate</th><th class="num">Score</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="fee-lanes" id="fee-lanes" aria-hidden="true"></div>
+        </section>
+
+        <section class="fee-evidence-block">
+          <header class="fee-evidence-h">
+            <div>
+              <h2>Comments behind the score</h2>
+              <p class="fee-evidence-note" id="fee-evidence-sub"></p>
+            </div>
+          </header>
+          <div class="fee-evidence-grid review-list compact" id="fee-evidence"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-ai" hidden>
+        <header class="page-h">
+          <div><div class="h-row"><h1>Model drafts</h1><span class="budget" id="ai-writer"></span></div><p class="sub">Counts do not move: clusters, tallies and the fee finding stay computed. A language model reads the pack below and writes the parts a person would usually write: the observation, three actions, which three comments to quote, and the support snippet. Each draft is checked against that pack. A failed draft goes back once with the reasons; if it fails again, the rule-based version stays.</p></div>
+        </header>
+
+        <div class="grid g-2">
+          <div class="card">
+            <div class="card-h"><h2>Endpoint</h2><span class="card-sub">your own key</span></div>
+            <form class="ai-form" id="ai-form" autocomplete="off">
+              <label class="fld"><span>Provider</span><select id="ai-provider"></select></label>
+              <label class="fld"><span>Model</span><input id="ai-model" spellcheck="false"></label>
+              <label class="fld"><span>API key</span><input id="ai-key" type="password" spellcheck="false" placeholder="Paste a key" autocomplete="off"></label>
+              <p class="fld-note" id="ai-key-hint"></p>
+              <p class="fld-note">The key lives in this tab only. It is sent solely to the provider you pick and disappears on reload.</p>
+              <div class="row tight"><button class="btn primary" id="ai-go" type="submit">Draft now</button><button class="btn" id="ai-use" type="button" hidden>Adopt these drafts</button><button class="btn ghost" id="ai-reset" type="button" hidden>Return to rule-based</button></div>
+              <p class="ai-status" id="ai-status" role="status"></p>
+            </form>
+          </div>
+          <div class="card">
+            <div class="card-h"><h2>What the model is shown</h2><span class="card-sub" id="ai-ctx-size"></span></div>
+            <ul class="ai-ctx" id="ai-ctx"></ul>
+            <details class="peek"><summary>Reveal the full pack</summary><pre id="ai-ctx-json"></pre></details>
+            <details class="peek"><summary>Reveal the instructions</summary><pre id="ai-system"></pre></details>
+          </div>
+        </div>
+
+        <div class="card" id="ai-attempts-card" hidden>
+          <div class="card-h"><h2>Checks on each draft</h2><span class="card-sub">a failed check is sent back to the model word for word</span></div>
+          <div class="ai-attempts" id="ai-attempts"></div>
+        </div>
+
+        <div class="grid g-2 top-gap" id="ai-preview" hidden>
+          <div class="card"><div class="card-h"><h2>Week brief, model draft</h2><span class="card-sub" id="ai-pulse-words"></span></div><article class="doc slim" id="ai-pulse"></article></div>
+          <div class="card"><div class="card-h"><h2>Support copy, model draft</h2><span class="card-sub" id="ai-exp-n"></span></div><article class="doc slim explainer" id="ai-exp"></article></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-pulse" hidden>
+        <header class="page-h">
+          <div><div class="h-row"><h1>Week brief</h1><span class="budget" id="pulse-budget"></span><a class="writer" href="#ai" data-writer></a></div><p class="sub">For the product team, once a week. Leading clusters, the quotes behind them, one observation about what is breaking, and three moves. Capped at 250 words so it actually gets read.</p></div>
+          <div class="row tight">
+            <button class="btn" data-copy="pulse" type="button">Copy</button>
+            <a class="btn" id="dl-pulse" download="weekly-pulse.md">Save .md</a>
+            <a class="btn primary" href="#approve">Release through MCP</a>
+          </div>
+        </header>
+        <div class="doc-layout">
+          <article class="doc" id="pulse"></article>
+          <aside class="rail">
+            <h3>Checks on this note</h3>
+            <ul class="checks" id="pulse-checks"></ul>
+            <p class="rail-note">The same assertions run again in <code>eval/run_eval.js</code> on every commit.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-explainer" hidden>
+        <header class="page-h">
+          <div><div class="h-row"><h1>Support copy</h1><span class="budget" id="exp-budget"></span><a class="writer" href="#ai" data-writer></a></div><p class="sub">For a support agent to paste when someone asks why a line was deducted. Facts and figures from official pages only, in the order a confused user asks them. No pep talk, no advice, and a date so a stale rate cannot hide.</p></div>
+          <div class="row tight">
+            <button class="btn" data-copy="explainer" type="button">Copy</button>
+            <a class="btn" href="sources.csv">Source table</a>
+            <a class="btn primary" href="#approve">Release through MCP</a>
+          </div>
+        </header>
+        <div class="doc-layout">
+          <article class="doc explainer" id="explainer"></article>
+          <aside class="rail">
+            <h3>Checks on this snippet</h3>
+            <ul class="checks" id="exp-checks"></ul>
+            <p class="rail-note">Every rate the bullets assert is traced to <code>sources.csv</code>, and a tone check fails the build on recommendation words.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-approve" hidden>
+        <header class="page-h">
+          <div><h1>Release gate</h1><p class="sub">Two MCP tools are waiting. The server (the same <code>src/mcp-core.js</code> that <code>mcp/server.js</code> runs over stdio, hosted here in the page) has refused both calls once and returned exactly what it would write, with a single-use token bound to that payload. Read the payloads, then decide.</p><p class="sub" id="log-state"></p></div>
+        </header>
+
+        <div class="gate-layout">
+          <div class="payloads">
+            <div class="payload">
+              <header><span class="tool">notes.append_entry</span><span class="dest">product-pulse-log.md, kept in this browser</span></header>
+              <pre id="pay-doc"></pre>
+            </div>
+            <div class="payload">
+              <header><span class="tool">email.create_draft</span><span class="dest">draft only, never sent</span></header>
+              <pre id="pay-mail"></pre>
+            </div>
+          </div>
+          <div class="decide" id="decide">
+            <div class="decide-q">Approve both actions?</div>
+            <p class="decide-sub">Approving appends one entry to the product log and creates one email draft. Nothing is sent.</p>
+            <div class="decide-b">
+              <button class="btn primary lg" id="approve" type="button">Approve and log</button>
+              <button class="btn danger lg" id="reject" type="button">Reject</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="console" id="console" hidden>
+          <header>MCP transcript<span id="console-note"></span></header>
+          <pre id="console-out"></pre>
+        </div>
+
+        <div id="results" hidden>
+          <div class="grid g-2 top-gap">
+            <section class="card">
+              <header class="card-h"><h2>Appended to the product log</h2></header>
+              <article class="doc flat logentry" id="logentry"></article>
+              <p class="sub" id="log-meta"></p>
+              <div class="row">
+                <button class="btn" data-copy="logentry" type="button">Copy the entry</button>
+                <a class="btn" id="dl-log" download="product-pulse-log.md">Download the whole log</a>
+                <a class="btn" href="docs/product-pulse-log.md">On-disk log in the repo</a>
+              </div>
+            </section>
+            <section class="card">
+              <header class="card-h"><h2>Email draft</h2><span class="draft-flag">Draft, not sent</span></header>
+              <div class="mail" id="mail"></div>
+              <div class="row">
+                <button class="btn" data-copy="mailbody" type="button">Copy the draft</button>
+                <a class="btn" id="dl-eml" download="email-draft.eml">Download .eml</a>
+                <a class="btn" id="gmail" target="_blank" rel="noopener">Open in Gmail</a>
+              </div>
+              <p class="sub">The .eml carries <code>X-Unsent: 1</code>, so a mail client opens it as an editable draft. Gmail opens a compose window. Neither sends.</p>
+            </section>
+          </div>
+          <p class="sub"><button class="linkish" id="clear-log" type="button">Clear this browser's log and draft</button> to start from an empty document.</p>
+        </div>
+      </section>
+
+      <footer class="colophon" aria-hidden="true"></footer>
+
+      <p class="fallback" id="fallback" hidden></p>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

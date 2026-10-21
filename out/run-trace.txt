@@ -1,0 +1,8 @@
+1. Window: 3220 reviews between 21 Jul 2026 and 12 Oct 2026 (12 weeks)
+2. Qualify: 3220 reviews carry 25+ characters of text and enter clustering; 0 set aside
+3. Cluster: 2369 reviews matched one of 5 themes, 851 matched none and are left out rather than forced
+4. Rank: Top three by volume: Simple onboarding and intuitive navigation (1299); Order execution and app reliability issues (382); Unresolved support requests and poor follow-up (361)
+5. Detect: Scored each fee on reviews that name it and also signal not expecting it (confused x rate): brokerage 1.53, auto square-off charge 1, MTF interest 0.89, account and platform fees 0.89 — picked brokerage
+6. Quote: 3 verbatim quotes: 2 from the 241 charge-related reviews, 1 from Order execution and app reliability issues; one per week, profanity and all-caps reviews excluded
+7. Pulse: 250 words (limit 250)
+8. Explainer: 6 bullets (limit 6), 2 official links

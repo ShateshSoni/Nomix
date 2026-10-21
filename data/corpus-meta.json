@@ -1,0 +1,26 @@
+{
+  "product": "Groww",
+  "platform": "Google Play (Android)",
+  "app_id": "com.nextbillion.groww",
+  "locale": "en-IN",
+  "pulled_on": "2026-10-13",
+  "window": {
+    "from": "2026-07-21",
+    "to": "2026-10-12",
+    "weeks": 12
+  },
+  "reviews_in_window_all": 12765,
+  "reviews_in_window_with_text": 3220,
+  "reviews_in_csv": 3220,
+  "avg_rating_in_window": 4.4,
+  "rating_mix_in_window": {
+    "1": 1335,
+    "2": 213,
+    "3": 347,
+    "4": 1015,
+    "5": 9855
+  },
+  "text_filter": "reviews with 25 or more characters of text; rating-only reviews excluded",
+  "anonymisation": "display names and avatars dropped at ingest; review_id is a SHA-1 prefix of the Play review id",
+  "note": "Public reviews retrieved from the Google Play listing for study purposes. Verbatims are quoted unedited."
+}
